@@ -68,3 +68,66 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+# 3월 13일 강의
+
+
+## Node.js란 무엇인가?
+    
+### Node.js가 인기를 끄는 이유
+* 빠른 성능
+* JavaScript 풀스택 개발
+* 활발한 생테계
+* 실시간 애플리케이션에 강함
+* 마이크로 서비스 및 서버리스 환경과의 조화로운 연동
+
+### Node.js는 앞으로도 계속 발전할까?
+* Deno의 등장 but 아직 Node.js의 생태계가 훨씬 크고 안정적
+
+    
+### Node.js 장단점
+[장점]
+* 비동기 논 블로킹 I/O로 높은 성능 제공
+* JavaScript 풀스택 개발이 가능하여 생산성이 향상됨
+* npm의 방대한 생태계를 활용 가능
+* 경량 서버 개발에 적함 (Express.js등)
+* 실시간 데이터 처리(WebSocket)가 강력함
+        
+[단점]
+* Cpu 집약적인 작업에 부적합(멀티스레딩 성능이 부족함)
+* 콜백 지옥문제(async/await과 Promise 사용)
+* 보안 취약점(npm 패키지)
+        
+## React의 진화와 강의 진행방향
+
+* React 공식문서를 기초 + 자세한 설명 추가
+* codesandbox.io에서 테스트를 하도록 되어 있으나, 직접 local에서 테스트
+* create react app을 통해 프로젝트를 생성해서 사용
+
+## React 개발환경 구축
+* 개발 환경은 Node.js 설치
+* node LTS버전 다운
+* node를 설치하면 npx와 npm이 같이 설치됨
+* 이 외에는 코드 에디터와 웹 브라우저만 준비하면 개발 환경 구축은 끝입니다.
+
+## React Project 생성
+* working directory 생성
+* working directory 오픈 후 터미널 오픈
+
+
+## React Project의 구조 및 역할(중요파일)
+* node_modules/
+* public/
+* index.html
+* src/
+* App.css
+* App.js
+* index.css
+* index.js
+* .gitignore
+* package-lock.json
+* pakage.json
+* README.md
+
