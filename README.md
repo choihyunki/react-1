@@ -2,12 +2,16 @@
 
 ## 3월 20일 강의(3주차)
 
-### 📖 [React 강의 공식문서](https://ko.react.dev/)
+### 📖 [[React 강의 공식문서](https://ko.react.dev/)]
 
 ### React 개요
 * component 단위로 개발하여 레고를 조립하듯이 앱을 완성
 * 작은 기능을 실행할 수 있는 하나의 모듈
 * [공식 사이트의 홈](https://ko.react.dev/)에 설명
+* 코드 자체를 이해할 필요는 없음
+* component가 페이지로 변해가는 과정에 집중
+* [React 사이트](https://ko.react.dev/)에 접속하여 예제코드 확인
+* 사이트에서 자체 한글을 지원 ※자동 번역XXX
 
 ## 3월 13일 강의
 
