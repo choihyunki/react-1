@@ -17,7 +17,9 @@
    예를 들어 버튼이 클릭된 횟수를 세고 싶을 때
    이렇게 하려면 component에 state를 추가
    먼저, React에서 useState를 import
+  
 ``` import { useState } from 'react'; ```
+
 
 * 이 코드를 보면 useState는 react 파일 안에 Named Exports로 선언되어 있는 여러개의 component중 하나라는 것을 앎
    이제 component 내부에 state 변수를 선언
