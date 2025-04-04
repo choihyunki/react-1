@@ -1,6 +1,116 @@
 # 202130133 최현기
 
 ### 📖 [[React 강의 공식문서](https://ko.react.dev/)]
+-----
+## 3월 27일 강의(4주차)
+##### 병결로 인해 영상 참조 후 작성 했습니다.
+
+### Component의 생성 및 중첩(nesting)
+
+* React앱은 component로 구성
+   component는 고유한 로직과 모양을 가진 UI의 일부
+
+   component는 버튼처럼 작을 수도 있고, 전체 페이지처럼 클 수도 있음
+
+   component는 마크업을 반환(return)하는 JavaScript 함수
+
+   Nesting은 CSS 선택자의 중첩 구조를 생각하면 쉽게 이해
+
+   CSS 중첩 구조는 2023년 부터 자체 지원. 이전에는 Sass나 Lass 등을 이용할 때 사용
+  
+* export default 선언의 위치는 어디가 좋을까?
+
+   VS Code에서 자동 완성을 하면 위와 같이 맨 아래 선언되는 것을 확인
+
+   하지만 공식 문서처럼 main component의 function 키워드 왼쪽에 선언하는 것이 좋음
+
+   export default 키워드는 파일내의 component 중 기본 component를 지정
+
+   이 키워드의 사용도 JavaScript 문법
+
+   좀 더 구체적으로 알고 싶다면 사이트의 MDN 혹은 javascript.info 링크를 확인
+
+
+#### [export default와 export의 차이]
+
+* Named Exports(export)
+
+   하나의 파일안에 여러개의 component가 있을 때 사용
+   component를 사용하는 쪽에서는 component 정확한 이름을 명시
+   예) imnport { add, subtract, multiply, divide } from './math'
+  
+* Default Exports(export default)
+
+   하나의 파일안에서 하나의 component만 내보내는 경우 사용
+   component를 사용하는 쪽에서는 어떤 이름을 사용해도 상관없음
+   예) import calc from './calculator'
+   예제 코드에서 MyButton Component만 분리
+
+   어떤 과정을 거쳐야 하는지 생각하면서, 예제 코드와 같은 결과가 나오도록 수정
+   Default Exports이기 때문에 import할 때는 어떤 이름을 사용해도 상관없음
+   다만 convention을 달리할 경우 가독성이 떨어지기 때문에 대문자로 시작하는 것이 좋음
+
+### JSX로 마크업 작성하기
+
+* 앞에서 작성한 코드의 마크업 문법을 JSX라고 함
+   반드시 사용해야 하는 것은 아니지만, React 프로젝트에서는 편의성을 위해 JSX를 사용
+   JSX는 HTML보다 더욱 엄격한 문법을 적용
+   JSX에서는 싱글 태그라도 태그를 닫아야 함
+   React에서는 여러개의 component를 JSX태그로 반환
+   다만 여러개의 component를
+   ...
+   또는 빈 <>...</> wrapping 
+
+### 스타일 추가하기
+
+*React에서는 className으로 CSS 클래스를 지정
+<img className="avatar" />
+className은 HTML의 class 속성과 동일한 방식으로 동작
+CSS 규칙은 별도의 CSS 파일에 작성 그런데 React는 CSS 파일을 추가하는 방법을 규정X
+정작 페이지를 작성할 때와 동일한 방법을 지원
+/* In your CSS */
+.avatar {
+    border-radius: 50%;
+}
+가장 간단한 방법은 HTML에 태그를 추가
+그러나 link를 추가하면 정적 페이지를 수정해야 하기 때문에 추천하지 않습니다.
+React를 사용할 수 있는 여러가지 방법은 뒤에서 알아보도록 하겠습니다.
+만일 빌드 도구나 프레임워크를 사용한다면 해당 문서를 참고하여 프로젝트에 CSS 파일을 추가합니다.
+5. 데이터 표시하기
+
+JSX를 사용하면 자바스크립트에 마크업을 넣을 수 있습니다.
+반대 아닌가? JS안의 마크업 안에 JS를 넣는다는 것이 더 정확합니다.
+JSX 코드 내에서 JavaScript로 "탈출"하여 변수나 표현식을 사용하는 것입니다.
+이 방법을 "Escape Back"이라고 합니다.
+{} 중괄호를 사용해서 변수나 표현식을 사용자에게 표시하도록 하는 것입니다.
+return (
+    <h1>
+        {user.name} // 자바스크립트 이스케이프
+    </h1>
+);
+
+------------------------------
+
+return (
+    <img
+        className="avatar"
+        src={user.imageUrl}
+    />
+);
+src 속성에 user.imageUrl 변수의 값을 전달하여 이미지의 경로를 설정하고 있습니다.
+반면에 className="avatar"는 단순히 문자열을 전달하는 경우에는 중괄호 대신 큰 따옴표를 사용합니다.
+스타일을 추가하기 위해서는 import 키워드를 이용해서 파일 경로를 작성하면 됩니다.
+6. 조건부 렌더링
+
+React에서 조건문을 작성하는 데에는 특별한 문법이 필요 없습니다.
+일반적인 자바스크립트 코드를 작성할 때 사용하는 것과 동일한 방법을 사용합니다.
+7. 리스트 렌더링하기
+
+컴포넌트 리스트를 렌더링하기 위해서는 for 문 및 map() 함수와 같은 자바스크립트 기능을 사용합니다.
+에 key 속성(attribute)이 있는 것을 주목하세요.
+목록을 사용할 때는 각 항목에 대해 고유하게 식별하는 문자열 또는 숫자를 전달해야 합니다.
+항목을 삽입, 삭제 또는 재정렬할 때 어떤 일이 일어났는지 알기 위해 key를 사용합니다.
+이것을 key props라고 하는데, 자세한 내용은 props를 학습할 때 자세히 다룹니다.
 
 -----
 ## 3월 20일 강의(3주차)
