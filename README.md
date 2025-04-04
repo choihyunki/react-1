@@ -9,43 +9,31 @@
 
 * React앱은 component로 구성
    component는 고유한 로직과 모양을 가진 UI의 일부
-
    component는 버튼처럼 작을 수도 있고, 전체 페이지처럼 클 수도 있음
-
    component는 마크업을 반환(return)하는 JavaScript 함수
-
    Nesting은 CSS 선택자의 중첩 구조를 생각하면 쉽게 이해
-
    CSS 중첩 구조는 2023년 부터 자체 지원. 이전에는 Sass나 Lass 등을 이용할 때 사용
   
 * export default 선언의 위치는 어디가 좋을까?
-
    VS Code에서 자동 완성을 하면 위와 같이 맨 아래 선언되는 것을 확인
-
    하지만 공식 문서처럼 main component의 function 키워드 왼쪽에 선언하는 것이 좋음
-
    export default 키워드는 파일내의 component 중 기본 component를 지정
-
    이 키워드의 사용도 JavaScript 문법
-
    좀 더 구체적으로 알고 싶다면 사이트의 MDN 혹은 javascript.info 링크를 확인
 
 
 #### [export default와 export의 차이]
 
 * Named Exports(export)
-
    하나의 파일안에 여러개의 component가 있을 때 사용
    component를 사용하는 쪽에서는 component 정확한 이름을 명시
    예) imnport { add, subtract, multiply, divide } from './math'
   
 * Default Exports(export default)
-
    하나의 파일안에서 하나의 component만 내보내는 경우 사용
    component를 사용하는 쪽에서는 어떤 이름을 사용해도 상관없음
    예) import calc from './calculator'
    예제 코드에서 MyButton Component만 분리
-
    어떤 과정을 거쳐야 하는지 생각하면서, 예제 코드와 같은 결과가 나오도록 수정
    Default Exports이기 때문에 import할 때는 어떤 이름을 사용해도 상관없음
    다만 convention을 달리할 경우 가독성이 떨어지기 때문에 대문자로 시작하는 것이 좋음
