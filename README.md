@@ -59,20 +59,19 @@ function Button() {
    Hook은 다른 함수보다 더 제한적 예를 들면,
    component 또는 다른 Hook의 상단에서만 Hook을 호출
    조건이나 반복문에서 useState를 사용하고 싶다면 새 컴포넌트를 추출하여 그곳에 넣기
-   ##### [Hooks의 사용 규칙(Rules of Hooks)]
+  
+##### [Hooks의 사용 규칙(Rules of Hooks)]
    * Hook은 React의 렌더링 및 상태 관리 매커니즘과 밀접하게 연결되어 있음
       최상위에서만 호출, if, for, while 등의 블록 내부에서 Hooks를 호출X 함수의 조건문 내부에서 호출하면 실행 순서가 달라질 수 있기 때문
       
       React 함수형 component 또는 사용자 Hook 내부에서만 사용 가능,  일반적인 JavaScript 함수에서 useState, useEffect 등의 Hook을 사용X
 
-   ##### [왜 이런 제한이 필요한가?]
-   
+##### [왜 이런 제한이 필요한가?]
    * React의 동작을 예측 가능하고, 안정성을 높이기 위해 필요한 규칙
       rendering 순서를 보장하기 위해 조건문이나 반복문 안에서 Hooks를 사용하면 매 rendering마다 Hook의 호출 순서가 달라질 수 있기 때문에 React가 상태를 제대로 추적X
       불필요한 사이드 이펙트 방지 component가 여러번 rendering 될 때마다 동일한 순서로 Hook이 실행되어야 React가 의도한 동작을 수행할 수 있습니다.
    
-   ##### [왜 function형 컴포넌트에서만 Hook을 사용할까?]
-   
+##### [왜 function형 컴포넌트에서만 Hook을 사용할까?]
    * Class형 component는 lifecycle 함수를 통해서 상태 관리
    * 그런 이유때문에 Class형 component는 유지보수가 어렵고 복잡
    * React는 component의 상태 관리(lifecycle)와 로직을 더 간결하게 만들기 위해 Hooks를 도입
