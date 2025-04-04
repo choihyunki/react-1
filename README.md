@@ -2,6 +2,99 @@
 
 ### 📖 [[React 강의 공식문서](https://ko.react.dev/)]
 -----
+## 4월 3일 강의(5주차)
+
+### 이벤트에 응답하기
+
+* component 내부에 event handler 함수를 선언하면 event에 응답
+   onClick={handleClick}의 끝에 소괄호()가 없는 것을 주목
+   함수를 호출하지 않고 전달만 하면 됨
+   React는 사용자가 버튼을 클릭할 때 이벤트 핸들러를 호출
+  
+### 화면 업데이트하기
+
+* component가 특정 정보를 "기억"해 두었다가 표시하기를 원하는 경우가 있음
+   예를 들어 버튼이 클릭된 횟수를 세고 싶을 때
+   이렇게 하려면 component에 state를 추가
+   먼저, React에서 useState를 import
+``` import { useState } from 'react'; ```
+
+* 이 코드를 보면 useState는 react 파일 안에 Named Exports로 선언되어 있는 여러개의 component중 하나라는 것을 앎
+   이제 component 내부에 state 변수를 선언
+```
+function MyButton() {
+    const [count, setCount] = useState(0);
+    // ...
+}
+```
+* useState로부터 현재의 state를 저장할 수 있는 변수인 count와 이를 업데이트할 수 있는 함수인 setCount를 얻음
+   이름은 자유롭게 지정할 수 있지만 [something, setSomething]으로 작성하는 것이 일반적
+   즉, 변수 이름과 변수 이름 앞에 set을 붙인 업데이트 함수를 관용적으로 사용
+   버튼이 처음 표시될 때는 useState()에 0을 전달했기 때문에 count가 0이 됨
+   state를 변경하고 싶다면 setCount를 실행하고 새 값을 전달
+```
+function Button() {
+    const [count, setCount] = useState(0);
+
+    function handleClick() {
+        setCount(count + 1);
+    }
+
+    return (
+        <button onClick={handleClick}>
+            Clicked {count} times
+        </button>
+    );
+}
+```
+
+### Hook 사용하기
+
+* use로 시작하는 함수를 Hook
+   useState는 React에서 제공하는 내장 Hook
+   다른 내장 Hook은 API 참고서
+   또한 기존의 것들을 조합하여 자신만은 Hook을 작성 (사용자 Hook)
+   Hook은 다른 함수보다 더 제한적 예를 들면,
+   component 또는 다른 Hook의 상단에서만 Hook을 호출
+   조건이나 반복문에서 useState를 사용하고 싶다면 새 컴포넌트를 추출하여 그곳에 넣기
+##### [Hooks의 사용 규칙(Rules of Hooks)]
+* Hook은 React의 렌더링 및 상태 관리 매커니즘과 밀접하게 연결되어 있음
+   최상위에서만 호출, if, for, while 등의 블록 내부에서 Hooks를 호출X 함수의 조건문 내부에서 호출하면 실행 순서가 달라질 수 있기 때문
+   
+   React 함수형 component 또는 사용자 Hook 내부에서만 사용 가능,  일반적인 JavaScript 함수에서 useState, useEffect 등의 Hook을 사용X
+
+##### [왜 이런 제한이 필요한가?]
+
+* React의 동작을 예측 가능하고, 안정성을 높이기 위해 필요한 규칙
+   rendering 순서를 보장하기 위해 조건문이나 반복문 안에서 Hooks를 사용하면 매 rendering마다 Hook의 호출 순서가 달라질 수 있기 때문에 React가 상태를 제대로 추적X
+   불필요한 사이드 이펙트 방지 component가 여러번 rendering 될 때마다 동일한 순서로 Hook이 실행되어야 React가 의도한 동작을 수행할 수 있습니다.
+
+##### [왜 function형 컴포넌트에서만 Hook을 사용할까?]
+
+* Class형 component는 lifecycle 함수를 통해서 상태 관리
+* 그런 이유때문에 Class형 component는 유지보수가 어렵고 복잡
+* React는 component의 상태 관리(lifecycle)와 로직을 더 간결하게 만들기 위해 Hooks를 도입
+* 따라서 React 팀은 function형 component를 권장
+* Hook은 function형 component 전용으로 설계
+* 이런 이유때문에 function형 component에서만 Hook을 사용하는 것
+
+### Component 간 데이터 공유
+
+* 공식 문서에서는 MyButton과 MyApp을 계속 수정해 가면서 설명을 하고 있어서 이전 상태를 확인하기가 어려움
+   물론 변경이 있을 때마다 꼼꼼히 commit을 해두면 checkout을 통해서 확인이 가능
+   다만 이 경우 checkout을 반복해야 하기 때문에 확인하는데 불편함
+   따라서 실습은 꼭 필요한 경우를 제외하고는 별도의 component를 만들어 사용.
+
+* 사이트에서는 MyButton으로 설명하고 있지만, 우리는 CountState로 작성했던 것을 기억하고 사이트의 설명을 봐야함
+   [9절에서 "왜 변수는 count 하나인데 버튼 3개의 데이터가 모두 다른 state를 갖는 것일까?"라는 의문]
+   각각의 CountState component는 독립적인 count가 있는 것처럼 동작했고, 각 버튼을 클릭하면 클릭한 버튼의 count만 변경
+   각 component 객체가 독립적으로 동작
+   component는 하나지만 count 변수도 객체로 여러개 복사된 것이나 마찬가지
+   하지만 데이터를 공유하고 항상 함께 업데이트하기 위한 component가 필요한 경우가 많음
+   두 개의 CountState2 component가 동일한 count를 표시하고 함께 업데이트하려면, state를 개별 버튼에서 모든 버튼이 포함된 가장 가까운 component 안으로 이동
+   여기서 이야기하는 제일 가까운 component는 App component입니다. 외부에서 두 개 호출하는 것이 아니라, 내부에서 같은 count변수를 사용하는 것
+
+-----
 ## 3월 27일 강의(4주차)
 ##### 병결로 인해 영상 참조 후 작성 했습니다.
 
