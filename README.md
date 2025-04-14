@@ -4,6 +4,95 @@
 -----
 ## 4월 10일 강의(6주차)
 
+### props를 통해 데이터 전달하기
+
+* React의 component architecture를 사용해서 재사용할 수 있는 component를 만들어서 지저분하고 중복된 코드를 삭제
+   Board component를 만들고, Square component의 내용을 복사.
+   Square component의 button을 하나만 남기고 모두 삭제.
+   Board component의 button을 Square component로 변경
+   App에서 호출하는 component를 Square에서 Board로 변경
+   정상적으로 출력이 되는지 확인
+   여기까지 하면 component는 깔끔하게 정리 됐지만, 숫자 출력이 1
+   이 문제를 해결하기 위해 props를 사용하여 각 사각형이 가져야 할 값을 부모 component[Board]에서 자식 component[Square]로 전달
+   component를 호출하는 쪽이 부모 component입니다.
+  
+[사용자와 상호작용하는 컴포넌트 만들기 한글 문서에서 "사각형"이라고 번역된 것은 모두 Square 컴포넌트]
+
+* Square 컴포넌트를 클릭하면 X로 채워지게 코드를 수정
+   * 먼저 Square 내부에 handleClick 함수를 선언
+   * 다음 Square 컴포넌트에서 반환되는 JSX 버튼의 props에 onClick을 추가
+   이제 사각형을 클릭하면, 브라우저의 console 탭에 "clicked!" 라는 로그가 표시
+   사각형을 한 번 더 클릭하면 "clicked!" 라는 로그가 다시 생성
+   다음으로 사각형 컴포넌트가 클릭된 것을 "기억"하고 "X"표시로 채우기
+   컴포넌트는 무언가 "기억"하기 위해 static을 사용
+   React는 상태 기억을 위해 useState라는 Hook을 제공
+   Square 현재 값은 state에 저장하고 Square가 클릭하면 값이 변경되게끔
+
+1. 파일 상단에서 useState를 import
+2. Sqaure 컴포넌트에서 value prop을 제거, 대신 useState를 사용
+3. Square 컴포넌트의 시작 부분에 useState를 호출하고, value라는 이름의 state 변수를 반환
+* value는 값을 저장하는 변수, setValue는 값을 변경하는데 사용하는 함수
+   useState에 전달된 null은 이 state 변수의 초기값으로 현재 value는 null이라는 의미
+   앞에서 Square 컴포넌트는 더 이상 props를 사용하지 않게 수정
+4. 따라서 Board 컴포넌트가 생성한 9개의 Square 컴포넌트에서도 value prop을 제거
+* 이제 Square가 클릭되었을때 "X"를 표시하도록 변경
+5. console.log("clicked!"); 이벤트 핸들러를 setValue('X');로 변경
+* onClick 핸들러에서 set 함수를 호출해서 이 클릭될 때마다 Square를 다시 렌더링
+   업데이트 후 Square의 value는 'X'가 되므로, 앞으로 Board에서 'X'가 표시
+   Square를 클릭하면 'X'가 표시
+   각 Square에는 고유한 state 존재
+   각각의 Square에 저장된 value는 다른 Square와 완전히 독립적
+   컴포넌트에서 set 함수를 호출하면 React는 그 안에 있는 자식 컴포넌트도 자동으로 업데이트
+
+### state 끌어올리기
+
+* 현재 각 Square 컴포넌트는 게임 state의 일부를 기억
+   틱택토 게임에서 승자를 확인하려면 Board가 9개의 Square 컴포넌트 각각의 state를 기억하고 있어야 함
+   Board가 각각의 Square에 state에 "요청"해야 한다고 생각.
+   이 접근 방식은 React에서 기술적으로는 가능하지만, 코드가 이해하기 어렵고 버그에 취약하며 리팩토링하기 어렵기 때문에 권장X
+   가장 좋은 방법은 게임의 state를 각 Square가 아닌 부모 컴포넌트인 Board에 저장하는 것.
+   Board 컴포넌트는 각 Square에 숫자를 전달했을 때와 같이 prop을 전달하여 각 Square에 표시할 내용을 정할 수 있음
+   여러 자식 컴포넌트에서 데이터를 수집하거나 두 자식 컴포넌트가 서로 통신하도록 하려면, 부모 컴포넌트에서 공유 state를 선언
+   부모 컴포넌트는 props를 통해 해당 state를 자식 컴포넌트에 전달
+   이렇게 하면 자식 컴포넌트가 서로 동기화되고, 부모 컴포넌트와도 동기화
+   React 컴포넌트를 리팩토링 할 때 부모 컴포넌트로 state를 끌어올리는 것은 많이 사용하는 방법
+
+1. Board 컴포넌트를 편집해서 9개 Square에 해당되는 9개의 null의 배열을 기본값으로 하는 state 변수 squares를 선언
+   Array(9).fill(null)은 9개의 엘리먼트로 배열을 생성하고, 각 엘리먼트를 null로 설정 (참고: developer.mozilla.org)
+   그리고 state 변수 squares와 함수 setSqaures를 선언
+   배열의 각 항목은 각 Square 컴포넌트의 값에 해당
+   보드를 채우면, squares 배열은 다음과 같은 모양이 됨
+   ['O', null, 'X', 'X', 'X', 'O', 'O', null, null]
+#### component 분리하기 ⚠ Board component가 export default로 선언된 것을 보면, component가 분리되었다는 것을 알 수 있음
+
+우리도 컴포넌트를 모두 분리해서 만듦
+문서에서는 Board와 Square를 함께 두었지만 우리는 모두 분리
+#### [분리 순서]
+   1. component 이름과 동일한 파일 생성
+   2. 해당 파일에 코드를 복사하고 export default 키워드 추가
+   3. 필요한 component와 useState 추가
+   4. App.js에서 해당 코드를 삭제하고, Board component를 import
+   5. App.js에서 useState의 import를 제거
+   6. 정상적으로 동작하는지 확인
+   
+2. 이제 Board 컴포넌트는 렌더링하는 각 Square 컴포넌트에 value prop을 전달
+3. 다음으로 Board 컴포넌트에서 각 value prop을 받을 수 있도록 Square 컴포넌트를 수정
+4. 이를 위해 Square 컴포넌트에서 value의 상태 추적과 버튼의 onClick prop을 제거
+
+
+* 이제 각 Square는 'X', 'O', 또는 빈 Square인 경우 null이 되는 value prop을 받음
+   다음으로 Square가 클릭되었을 때 발생하는 동작을 변경
+   이제 Board 컴포넌트가 Square를 관리하므로 Square가 Board의 state를 업데이트할 방법
+   컴포넌트는 자신이 정의한 state에만 접근할 수 있으므로 Square에서 Board의 state를 직접 변경X
+   대신에 Board 컴포넌트에서 Square 컴포넌트로 함수를 전달하고, Square가 클릭될 때 Square가 해당 함수를 호출
+  
+5. Square 컴포넌트가 클릭될 때 호출할 함수부터 시작하겠습니다. onSquareClick으로 해당 함수를 호출
+6. 다음으로, Square 컴포넌트의 props에 onSquareClick 함수를 추가
+7. 이제 onSquareClick prop을 Board 컴포넌트의 handleClick 함수와 연결
+   * onSquareClick 함수를 handleClick과 연결하려면 첫번째 Square 컴포넌트의 onSquareClick prop에 해당 함수를 전달
+8. 마지막으로 보드 컴포넌트 내부에 handleClick 함수를 정의하여, 보드의 state를 담고 있는 squares 배열을 업데이트
+  
+
 -----
 ## 4월 3일 강의(5주차)
 
