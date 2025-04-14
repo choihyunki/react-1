@@ -21,12 +21,12 @@
 * Square 컴포넌트를 클릭하면 X로 채워지게 코드를 수정
    * 먼저 Square 내부에 handleClick 함수를 선언
    * 다음 Square 컴포넌트에서 반환되는 JSX 버튼의 props에 onClick을 추가
-   이제 사각형을 클릭하면, 브라우저의 console 탭에 "clicked!" 라는 로그가 표시
-   사각형을 한 번 더 클릭하면 "clicked!" 라는 로그가 다시 생성
-   다음으로 사각형 컴포넌트가 클릭된 것을 "기억"하고 "X"표시로 채우기
-   컴포넌트는 무언가 "기억"하기 위해 static을 사용
-   React는 상태 기억을 위해 useState라는 Hook을 제공
-   Square 현재 값은 state에 저장하고 Square가 클릭하면 값이 변경되게끔
+이제 사각형을 클릭하면, 브라우저의 console 탭에 "clicked!" 라는 로그가 표시
+사각형을 한 번 더 클릭하면 "clicked!" 라는 로그가 다시 생성
+다음으로 사각형 컴포넌트가 클릭된 것을 "기억"하고 "X"표시로 채우기
+컴포넌트는 무언가 "기억"하기 위해 static을 사용
+React는 상태 기억을 위해 useState라는 Hook을 제공
+Square 현재 값은 state에 저장하고 Square가 클릭하면 값이 변경되게끔
 
 1. 파일 상단에서 useState를 import
 2. Sqaure 컴포넌트에서 value prop을 제거, 대신 useState를 사용
