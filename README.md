@@ -2,18 +2,236 @@
 
 ### 📖 [[React 강의 공식문서](https://ko.react.dev/)]
 -----
+## 4월 17일 강의(7주차)
+
+### State 끌어올리기
+
+```js (slice) 
+
+const animals = ["ant", "bison", "camel", "duck","elephant"];
+
+console.log(animals.slice(2,4));
+// output => Array ["camel", "duck"]
+console.log(animals.slice(1,5));
+// output => Array ["bison", "camel", "duck","elephant"]
+
+
+```
+
+* 다음으로 인수 i를 handleClick에 전달 <br>
+    아래와 같이 작업하면 작동 안함
+
+    ``` js
+    <Square value={squares[0]} onSquareClick={handleClick(0)} />
+
+    ```
+
+    handleClick(0) 호출은 보드 컴포넌트 렌더링의 일부가 됨 <br> handleClick(0)은 setSquares를 호출하여 보드 컴포넌트의 state를 변경하기 때문에 보드 컴포넌트 전체가 다시 렌더링<br> 하지만 이 과정에서 handleClick(0)은 다시 실행되기 때문에 무한 루프에 빠짐
+
+
+* 9개의 서로 다른 함수를 정의하고 각각에 이름을 붙이는 것은 너무 장황<br>
+    ```js
+    <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+    ```
+    화살표 함수로 짧게 정의 후 여러번 사용(무명함수는 일회성)
+
+* 이제 모든 square 변경
+    ```js
+    return (
+    <>
+      <div className="board-row">
+        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+      </div>
+      <div className="board-row">
+        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+      </div>
+      <div className="board-row">
+        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+      </div>
+    </>
+    );
+    ```
+    이제 보드에 클릭시 X 추가
+
+* 이제 Board가 모든 state를 관리하므로 부모 Board 컴포넌트는 자식 Square 컴포넌트가 올바르게 표시될 수 있도록 props를 전달<br>
+Square를 클릭하면 자식 컴포넌트가 Board의 state를 업데이트 하도록 요청<br>
+Board의 state가 변경되면 Board 컴포넌트와 모든 자식 Square 컴포넌트가 자동으로 다시 렌더링<br>
+Board 컴포넌트에 속한 모든 사각형의 state를 유지하면 나중에 승자를 결정가능<br>
+
+
+##### [정리]
+사각형 클릭시 button이 square로부터 onclick prop으로 받은 함수 실행<br>
+함수는 0을 인수로 handleclick 호출<br>
+jsx에서 해당 함수를 직접 정의<br>
+square 컴포넌트는 해당 함수를 onSquareClick prop로 받음
+handleClick은 인수 0을 사용하여 squares 배열의 첫 번째 엘리먼트를 null에서 X로 업데이트<br>
+Board 컴포넌트의 squares state가 업데이트되어 Board와 그 모든 자식이 다시 렌더링, 인덱스가 0인 Square 컴포넌트의 value prop가 null에서 X로 변경<br>
+최종적으로 사용자는 왼쪽 위 사각형을 클릭한 후 비어있는 사각형이 X로 변경된 것을 확인할 수 있습니다.<br>
+```
+※중요※
+DOM <button> 엘리먼트의 onClick 어트리뷰트는 빌트인 컴포넌트이기 때문에 React에서 특별한 의미
+ Square의 onSquareClick prop나 Board의 handleClick 함수에 어떠한 이름을 붙여도 코드는 동일하게 작동 React에서는 주로 이벤트를 나타내는 prop에는 onSomething과 같은 이름을 사용하고, 이벤트를 처리하는 함수를 정의 할 때는 handleSomething과 같은 이름을 사용
+```
+
+
+#### 불변성이 왜 중요할까
+
+handleClick에서 기존 배열을 수정하는 대신 .slice()를 호출하여 squares 배열의 사본을 생성하는 방법에 주목
+
+squares 배열을 변형한 경우의 모습
+```js
+const squares = [null, null, null, null, null, null, null, null, null];
+squares[0] = 'X';
+// Now `squares` is ["X", null, null, null, null, null, null, null, null];
+```
+
+squares 배열을 변형하지 않고 데이터를 변경한 경우의 모습
+```js
+const squares = [null, null, null, null, null, null, null, null, null];
+const nextSquares = ['X', null, null, null, null, null, null, null, null];
+// Now `squares` is unchanged, but `nextSquares` first element is 'X' rather than `null`
+```
+
+1. 불변성을 사용하면 복잡한 기능을 훨씬 쉽게 구현<br>
+    우리는 이 자습서의 뒷부분에서 게임의 진행 과정을 검토하고 과거 움직임으로 “돌아가기”를 할 수 있는 “시간 여행” 기능을 구현할 예정<br> 특정 작업을 실행 취소하고 다시 실행하는 기능은 이 게임에만 국한된 것이 아닌 앱의 일반적인 요구사항<br> 직접적인 데이터 변경을 피하면 이전 버전의 데이터를 그대로 유지하여 나중에 재사용(또는 초기화)
+
+2. 불변성을 사용하는 것의 또 다른 장점이 있습니다.
+
+### 교대로 두기 - 1
+
+기본적으로 첫 번째 이동을 “X”로 설정, 이제 보드 컴포넌트에 또 다른 state를 추가하여 추적
+
+```js
+function Board() {
+  const [xIsNext, setXIsNext] = useState(true);
+  const [squares, setSquares] = useState(Array(9).fill(null));
+
+  // ...
+}
+```
+플레이어가 움직일 때마다 다음 플레이어를 결정하기 위해 불리언 값인 xIsNext가 반전되고 게임의 state가 저장
+
+```js
+export default function Board() {
+  const [xIsNext, setXIsNext] = useState(true);
+  const [squares, setSquares] = useState(Array(9).fill(null));
+
+  function handleClick(i) {
+    const nextSquares = squares.slice();
+    if (xIsNext) {
+      nextSquares[i] = "X";
+    } else {
+      nextSquares[i] = "O";
+    }
+    setSquares(nextSquares);
+    setXIsNext(!xIsNext); // 
+  }
+
+  return (
+    //...
+  );
+}
+```
+
+
+이렇게 하면 게임이 좀 더 흥미로워질 수 있지만 지금은 원래의 규칙을 유지
+지금은 X와 O로 사각형을 표시할 때 먼저 해당 사각형에 이미 X 또는 O값이 있는지 확인하고 있지 않습니다. 일찍이 돌아와서 이 문제를 해결하기 위해 사각형에 이미 X와 O가 있는지 확인하겠습니다. 사각형이 이미 채워져 있는 경우 보드의 state를 업데이트하기 전에 handleClick 함수에서 조기에 return 하겠습니다.
+```js
+function handleClick(i) {
+  if (squares[i]) {
+    return;
+  }
+  const nextSquares = squares.slice();
+  //...
+}
+```
+
+### 승자 결정하기
+
+이제 어느 플레이어의 다음 차례인지 표시했으니, 게임의 승자가 결정되어 더 이상 차례를 만들 필요가 없을 때도 표시<br> 이를 위해 9개의 사각형 배열을 가져와서 승자를 확인하고 적절하게 'X' , 'O' , 또는 null을 반환하는 도우미 함수 calculateWinner를 추가<br> calculateWinner 함수에 대해 걱정X 이 함수는 React에서만 국한되는 함수가 아님
+
+
+```word
+※중요※ 
+ calculateWinner 함수를 Board의 앞에 정의하든 뒤에 정의하든 상관X
+ 여기에선 컴포넌트를 편집할 때마다 편집기 상에서 스크롤 할 필요가 없도록 마지막에 배치
+```
+
+Board 컴포넌트의 handleClick 함수에서 calculateWinner(squares)를 호출하여 플레이어가 이겼는지 확인<br> 이 검사는 사용자가 이미 X 또는 O가 있는 사각형을 클릭했는지를 확인하는 것과 동시에 수행<br> 두 경우 모두 함수를 조기 반환
+
+```js
+function handleClick(i) {
+  if (squares[i] || calculateWinner(squares)) {
+    return;
+  }
+  const nextSquares = squares.slice();
+  //...
+}
+```
+
+
+게임이 끝났을 때 플레이어에게 알리기 위해 “Winner: X” 또는 “Winner: O”라고 표시<br> 이렇게 하려면 Board 컴포넌트에 status 구역을 추가<br>게임이 끝나면 status는 승자를 표시하고 게임이 진행 중인 경우 다음 플레이어의 차례를 표시
+
+```js
+export default function Board() {
+  // ...
+  const winner = calculateWinner(squares);
+  let status;
+  if (winner) {
+    status = "Winner: " + winner;
+  } else {
+    status = "Next player: " + (xIsNext ? "X" : "O");
+  }
+
+  return (
+    <>
+      <div className="status">{status}</div>
+      <div className="board-row">
+        // ...
+  )
+}
+```
+
+### 시간여행 추가하기
+
+게임의 이전 동작으로 “시간을 거슬러 올라가는” 기능
+
+squares 배열을 변형하면 시간 여행을 구현하기는 매우 어려움<br>
+하지만 우리는 slice()를 사용하여 매번 이동할 때마다 squares 배열의 새 복사본을 만들고 이를 불변으로 처리<br>덕분에 squares 배열의 모든 과거 버전을 저장할 수 있고 이미 발생한 턴 사이를 탐색<br>
+
+과거의 squares 배열을 history라는 다른 배열에 저장하고 이 배열을 새로운 state 변수로 저장<br> history 배열은 첫 번째 이동부터 마지막 이동까지 모든 보드 state를 나타내며 다음과 같음
+
+```js
+[
+  // Before first move
+  [null, null, null, null, null, null, null, null, null],
+  // After first move
+  [null, null, null, null, 'X', null, null, null, null],
+  // After second move
+  [null, null, null, null, 'X', null, null, null, 'O'],
+  // ...
+]
+```
+
+-----
 ## 4월 10일 강의(6주차)
 
 ### props를 통해 데이터 전달하기
 
-* React의 component architecture를 사용해서 재사용할 수 있는 component를 만들어서 지저분하고 중복된 코드를 삭제
-   Board component를 만들고, Square component의 내용을 복사.
-   Square component의 button을 하나만 남기고 모두 삭제.
-   Board component의 button을 Square component로 변경
-   App에서 호출하는 component를 Square에서 Board로 변경
-   정상적으로 출력이 되는지 확인
+* React의 component architecture를 사용해서 재사용할 수 있는 component를 만들어서 지저분하고 중복된 코드를 삭제<br>
+   Board component를 만들고, Square component의 내용을 복사.<br>
+   Square component의 button을 하나만 남기고 모두 삭제.<br>
+   Board component의 button을 Square component로 변경<br>
+   App에서 호출하는 component를 Square에서 Board로 변경<br>
+   정상적으로 출력이 되는지 확인<br>
    여기까지 하면 component는 깔끔하게 정리 됐지만, 숫자 출력이 1
-   이 문제를 해결하기 위해 props를 사용하여 각 사각형이 가져야 할 값을 부모 component[Board]에서 자식 component[Square]로 전달
+   이 문제를 해결하기 위해 props를 사용하여 각 사각형이 가져야 할 값을 부모 component[Board]에서 자식 component[Square]로 전달<br>
    component를 호출하는 쪽이 부모 component입니다.
   
 [사용자와 상호작용하는 컴포넌트 만들기 한글 문서에서 "사각형"이라고 번역된 것은 모두 Square 컴포넌트]
