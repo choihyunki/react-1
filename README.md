@@ -12,6 +12,7 @@ history state를 Game 컴포넌트에 배치하면 자식 Board 컴포넌트에�
 
 먼저 export default가 있는 Game 컴포넌트를 추가하세요. 일부 마크업 안에 Board 컴포넌트를 렌더링하도록 하세요.
 
+
 ```js
 function Board() {
   // ...
