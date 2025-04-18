@@ -31,7 +31,7 @@ export default function Game() {
 }
 ```
 
-export default 키워드를 function Board() { 선언 앞에서 제거하고 function Game() { 선언 앞에 추가한 것에 유의하세요. 이것은 index.js 파일에서 Board 컴포넌트 대신 Game 컴포넌트를 최상위 컴포넌트로 사용하도록 지시합니다. Game 컴포넌트가 반환하는 내용에 추가한 div는 나중에 보드에 추가할 게임 정보를 위한 공간을 확보합니다.
+export default 키워드를 ```function Board() {``` 선언 앞에서 제거하고 ```function Game() {``` 선언 앞에 추가한 것에 유의하세요. 이것은 index.js 파일에서 Board 컴포넌트 대신 Game 컴포넌트를 최상위 컴포넌트로 사용하도록 지시합니다. Game 컴포넌트가 반환하는 내용에 추가한 div는 나중에 보드에 추가할 게임 정보를 위한 공간을 확보합니다.
 
 다음 플레이어와 이동 기록을 추적하기 위해 Game 컴포넌트에 몇개의 state를 추가하세요.
 
@@ -42,7 +42,7 @@ export default function Game() {
   // ...
 ```
 
-[Array(9).fill(null)]은 단일 항목배열로 그 자체가 9개의 null의 배열이라는 점에 유의하세요.
+```[Array(9).fill(null)]```은 단일 항목배열로 그 자체가 9개의 null의 배열이라는 점에 유의하세요.
 
 현재 이동에 대한 사각형을 렌더링하려면 history에서 마지막 사각형의 배열을 읽어야 합니다. 렌더링 중에 계산할 수 있는 충분한 정보가 이미 있으므로 useState는 필요하지 않습니다.
 
@@ -131,7 +131,7 @@ export default function Game() {
 
 위에서 [...history, nextSquares] 는 history에 있는 모든 항목을 포함하는 새 배열을 만들고 그 뒤에 nextSquares를 만듭니다. (...history 전개 구문을 “history 의 모든 항목 열거”로 읽을 수 있습니다)
 
-예를 들어, history가 [[null,null,null], ["X",null,null]]이고 nextSquares 가 ["X",null,"O"]라면 새로운 [...history, nextSquares] 배열은 [[null,null,null], ["X",null,null], ["X",null,"O"]]가 될 것입니다.
+예를 들어, history가 ```[[null,null,null], ["X",null,null]]```이고 nextSquares 가 ```["X",null,"O"]```라면 새로운 [...history, nextSquares] 배열은 ```[[null,null,null], ["X",null,null], ["X",null,"O"]]```가 될 것입니다.
 
 
 
@@ -139,7 +139,7 @@ export default function Game() {
 ### 과거 움직임 보여주기 
 이제 틱택토 게임의 히스토리를 기록하므로, 플레이어에게 과거 이동 목록을 보여줄 수 있습니다.
 
-<button>과 같은 React 엘리먼트는 일반 JavaScript 객체이므로 애플리케이션에서 전달할 수 있습니다. React에서 여러 엘리먼트를 렌더링하려면 React 엘리먼트 배열을 사용할 수 있습니다.
+```<button>```과 같은 React 엘리먼트는 일반 JavaScript 객체이므로 애플리케이션에서 전달할 수 있습니다. React에서 여러 엘리먼트를 렌더링하려면 React 엘리먼트 배열을 사용할 수 있습니다.
 
 이미 state에 이동 history 배열이 있으므로 이를 React 엘리먼트 배열로 변환해야 합니다. JavaScript에서 한 배열을 다른 배열로 변환하려면 배열 map 메서드를 사용하면 됩니다.
 
@@ -199,7 +199,7 @@ export default function Game() {
 
 map으로 history 배열을 반복할 때 전달한 함수 내에서 squares 인수는 history의 각 엘리먼트를 통과하고, move 인수는 각 배열 인덱스를 통과합니다: 0, 1, 2, … (대부분은 실제 배열 엘리먼트가 필요하지만, 이 경우에는 이동 목록을 렌더링하기 위해 인덱스만 있어도 됩니다.)
 
-틱택토 게임 history의 각 이동에 대해 버튼 <button>이 포함된 목록 항목 <li>를 생성하세요. 버튼에는 (아직 구현하지 않은) jumpTo라는 함수를 호출하는 onClick 핸들러가 있습니다.
+틱택토 게임 history의 각 이동에 대해 버튼 ```<button>```이 포함된 목록 항목 ```<li>```를 생성하세요. 버튼에는 (아직 구현하지 않은) jumpTo라는 함수를 호출하는 onClick 핸들러가 있습니다.
 
 현재로서는 개발자 도구 콘솔에 게임의 발생한 동작 목록과 오류가 표시되어야 합니다. “key” 오류가 무엇을 의미하는지 알아보겠습니다.
 
@@ -247,7 +247,7 @@ key는 전역적으로 고유할 필요는 없으며 컴포넌트와 해당 컴�
 
 틱택토 게임의 기록에서 과거의 각 이동에는 해당 이동의 일련번호인 고유 ID가 있습니다. 이동은 중간에 순서를 바꾸거나 삭제하거나 삽입할 수 없으므로 이동 인덱스를 key로 사용하는 것이 안전합니다.
 
-Game 함수에서 <li key={move}>로 key를 추가할 수 있으며 렌더링 된 게임을 다시 로드하면 React의 “key” 에러가 사라질 것입니다.
+Game 함수에서 ```<li key={move}>```로 key를 추가할 수 있으며 렌더링 된 게임을 다시 로드하면 React의 “key” 에러가 사라질 것입니다.
 
 ```js
 const moves = history.map((squares, move) => {
