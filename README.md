@@ -2,7 +2,46 @@
 
 ### 📖 [[React 강의 공식문서](https://ko.react.dev/)]
 -----
-## 5월 15일 강의(10주차)
+## 5월 22일 강의(12주차)
+
+#### 설치하기
+
+React는 처음부터 점진적으로 적용할 수 있도록 설계
+필요한 만큼 React를 사용가능
+React를 맛보기로 접해보려거나, 간단한 HTML 페이지에 약간의 상호작용을 추가하거나, 복잡한 React 기반의 앱을 시작하고자 하는 경우 참고
+
+#### React 시도하기 
+
+단순히 React를 사용해 보고 싶다면, 아무것도 설치할 필요 없습니다. 이 샌드박스를 통해 사용해 보세요
+
+```javascript
+function Greeting({ name }) {
+  return <h1>Hello, {name}</h1>;
+}
+
+export default function App() {
+  return <Greeting name="world" />
+}
+```
+
+#### 새로운 React 앱 만들기
+
+React로 새로운 앱이나 웹사이트를 구축하려면 프레임워크부터 시작하는 것이 좋습니다.</br>
+앱에 기존 프레임워크에서 잘 제공되지 않는 제약 조건이 있거나, 자체 프레임워크를 빌드하는 것을 선호하거나, React 앱의 기본 사항만 배우려는 경우 React 앱을 처음부터 빌드할 수 있습니다.
+
+#### 풀스택 프레임워크 
+이러한 권장 프레임워크는 프로덕션에서 앱을 배포하고 확장하는 데 필요한 모든 기능을 지원합니다. 그들은 최신 React 기능을 통합하고 React의 아키텍처를 활용합니다.
+
+```
+풀스택 프레임워크에는 서버가 필요하지 않습니다 
+이 페이지의 모든 프레임워크는 클라이언트 측 렌더링(CSR), 단일 페이지 앱(SPA), 정적 사이트 생성(SSG)을 지원합니다. 이러한 앱은 서버 없이 CDN 또는 정적 호스팅 서비스에 배포할 수 있습니다. 또한 이러한 프레임워크를 사용하면 사용 사례에 적합한 경우 경로별로 서버 측 렌더링을 추가할 수 있습니다.
+
+이렇게 하면 클라이언트 전용 앱으로 시작할 수 있으며, 나중에 요구 사항이 변경되는 경우 앱을 다시 작성하지 않고도 개별 경로에서 서버 기능을 사용하도록 선택할 수 있습니다. 렌더링 전략을 구성하는 방법에 대한 프레임워크 설명서를 참조하세요.
+```
+
+
+-----
+## 5월 15일 강의(11주차)
 
 최소한의 데이터만 이용해서 완벽하게 UI State 표현하기
 UI를 상호작용(interactive)하게 만들려면, 사용자가 기반 데이터 모델을 변경할 수 있게해야 합니다.
@@ -23,7 +62,12 @@ UI에 상품 아이템의 개수를 노출하고 싶다면, 상품 아이템 개
 컴포넌트 안의 다른 state나 props를 가지고 계산 가능한가요? 그렇다면 절대로 state가 아닙니다!
 이 외 남는건 아마 state일 겁니다.
 
-- 위 데이터들을 다시 한번 순서대로 살펴봅시다. 1. 제품의 원본 목록은 props로 전달되었기 때문에 state가 아닙니다. 2. 사용자가 입력한 검색어는 시간이 지남에 따라 변하고, 다른 요소로부터 계산될 수 없기 때문에 state로 볼 수 없습니다. 3. 체크박스의 값은 시간에 따라 바뀌고 다른 요소로부터 계산될 수 없기 때문에 state로 볼 수 있습니다. 4. 필터링된 제품 목록은 원본 제품 목록을 받아서 검색어와 체크박스의 값에 따라 계산할 수 있으므로, 이는 state가 아닙니다. - 따라서, 검색어와 체크박스의 값만이 state입니다! ⚠ 공식문서의 자세히 살펴보기를 통해서 props와 state에 관해서 다시 한번 정리합니다.
+- 위 데이터들을 다시 한번 순서대로 살펴봅시다.
+- 1. 제품의 원본 목록은 props로 전달되었기 때문에 state가 아닙니다.
+- 2. 사용자가 입력한 검색어는 시간이 지남에 따라 변하고, 다른 요소로부터 계산될 수 없기 때문에 state로 볼 수 없습니다.
+- 3. 체크박스의 값은 시간에 따라 바뀌고 다른 요소로부터 계산될 수 없기 때문에 state로 볼 수 있습니다.
+- 4. 필터링된 제품 목록은 원본 제품 목록을 받아서 검색어와 체크박스의 값에 따라 계산할 수 있으므로, 이는 state가 아닙니다.
+- 5. 따라서, 검색어와 체크박스의 값만이 state입니다! ⚠ 공식문서의 자세히 살펴보기를 통해서 props와 state에 관해서 다시 한번 정리합니다.
 
 State가 어디에 있어야 할 지 정하기
 
@@ -45,10 +89,23 @@ state를 소유할 적절한 컴포넌트를 찾지 못했다면, state를 소�
 이 예시에서 두 가지 state가 항상 함께 나타나기 때문에 같은 위치에 두는 것이 합리적입니다.
 
 - 이제 이 전략을 애플리케이션에 적용해 봅시다.
-1. state를 쓰는 컴포넌트를 찾아봅시다. - ProductTable은 state에 기반한 상품 리스트를 필터링해야 합니다.(검색어와 체크박스의 값) - SearchBar는 state를 표시해 주어야합니다.(검색어와 체크박스의 값) 2. 공통 부모를 찾아봅시다. - 둘 모두가 공유하는 첫번째 부모는 FilterableProductTable입니다. 3. 어디에 state가 존재해야할지 정해봅시다. - 우리는 FilterableProductTable에 검색어와 체크박스 값을 state로 둘겁니다.
-- 이제 state 값은 FilterableProductTable 안에 있습니다. - useState() Hook을 이용해서 state를 컴포넌트에 추가하세요. - Hooks는 React 기능에 "연결할 수(hook into)" 있게 해주는 특별한 함수 입니다.
-1. FilterableProductTable의 상단의 두 개의 state 변수를 추가해서 초기값을 명확하게 보여주세요. ```javascript function FilterableProductTable({ products }) { const [filterText, setFilterText] = useState(''); const [inStockOnly, setInStockOnly] = useState(false); } ``` 2. 다음으로, filterText와 inStockOnly를 ProductTable과 SearchBar에게 props로 전달하세요. ```javascript
-``` - 이제 애플리케이션이 어떻게 동작하는지 알 수 있습니다. - filterText의 초깃값을 useState('')에서 useState('fruit')로 수정해보세요. - 검색창과 데이터 테이블이 모두 업데이트 됨을 확인할 수 있습니다.
+1. state를 쓰는 컴포넌트를 찾아봅시다.
+- ProductTable은 state에 기반한 상품 리스트를 필터링해야 합니다.(검색어와 체크박스의 값)
+- SearchBar는 state를 표시해 주어야합니다.(검색어와 체크박스의 값)
+2. 공통 부모를 찾아봅시다. - 둘 모두가 공유하는 첫번째 부모는 FilterableProductTable입니다. 
+3. 어디에 state가 존재해야할지 정해봅시다. - 우리는 FilterableProductTable에 검색어와 체크박스 값을 state로 둘겁니다.
+- 이제 state 값은 FilterableProductTable 안에 있습니다. - useState() Hook을 이용해서 state를 컴포넌트에 추가하세요.
+- Hooks는 React 기능에 "연결할 수(hook into)" 있게 해주는 특별한 함수 입니다.
+1. FilterableProductTable의 상단의 두 개의 state 변수를 추가해서 초기값을 명확하게 보여주세요.
+
+```javascript
+function FilterableProductTable({ products }) { const [filterText, setFilterText] = useState(''); const [inStockOnly, setInStockOnly] = useState(false); }
+```
+
+2. 다음으로, filterText와 inStockOnly를 ProductTable과 SearchBar에게 props로 전달하세요.
+- 이제 애플리케이션이 어떻게 동작하는지 알 수 있습니다.
+- filterText의 초깃값을 useState('')에서 useState('fruit')로 수정해보세요.
+- 검색창과 데이터 테이블이 모두 업데이트 됨을 확인할 수 있습니다.
 ProductTable의 props를 추가해줍니다. -> products, filterText, inStockOnly
 ProductTable의 forEach문을 수정합니다. ⚠ 첫번째 코드와 비교해 보면서 어디가 수정되었는지 정확하게 수정해줘야 합니다.
 아직 폼을 수정하는 작업이 작동하지 않습니다. 문서의 샌드박스에서 콘솔 에러가 발생하고 그 이유를 설명하겠습니다.
@@ -63,8 +120,10 @@ ProductTable의 forEach문을 수정합니다. ⚠ 첫번째 코드와 비교해
 이를 위해서는 계층 구조의 하단에 있는 컴포넌트에서 FilterableProductTable의 state를 업데이트할 수 있어야 합니다.
 
 - React는 데이터 흐름을 명시적으로 보이게 만들어 줍니다. - 그러나 이는 전통적인 양방향 데이터 바인딩보다 조금 더 많은 타이핑이 필요합니다.
-- 4단계의 예시에서 체크하거나 키보드를 타이핑할 경우 UI의 변화가 없고 입력을 무시하는 것을 확인할 수 있습니다. - 이것은 의도적으로 input value={ filterText }로 코드를 쓰면서 value라는 prop이 항상 FilterableProductTable의 filterText라는 state를 통해서 데이터를 받도록 정했기 때문입니다.
-- filterText라는 state가 변경되는 것이 아니기 때문에 input의 value는 변하지 않고 화면도 바뀌는 것이 없습니다. - 우리는 사용자가 input을 변경할 때마다 사용자의 입력을 반영할 수 있도록 state를 업데이트하기를 원합니다. - state는 FilterableProductTable이 가지고 있고 state 변경을 위해서는 setFilterText와 setInStockOnly를 호출을 하면 됩니다. - SearchBar가 FilterableProductTable의 state를 업데이트할 수 있도록 하려면, 이 함수들을 SearchBar로 전달해야합니다. ```javascript function FilterableProductTable({ products }) { const [filterText, setFilterText] = useState(''); const [inStockOnly, setInStockOnly] = useState(false);
+- 4단계의 예시에서 체크하거나 키보드를 타이핑할 경우 UI의 변화가 없고 입력을 무시하는 것을 확인할 수 있습니다. - 이것은 의도적으로 ```input value={ filterText }```로 코드를 쓰면서 value라는 prop이 항상 FilterableProductTable의 filterText라는 state를 통해서 데이터를 받도록 정했기 때문입니다.
+- filterText라는 state가 변경되는 것이 아니기 때문에 input의 value는 변하지 않고 화면도 바뀌는 것이 없습니다. - 우리는 사용자가 input을 변경할 때마다 사용자의 입력을 반영할 수 있도록 state를 업데이트하기를 원합니다. - state는 FilterableProductTable이 가지고 있고 state 변경을 위해서는 setFilterText와 setInStockOnly를 호출을 하면 됩니다. - SearchBar가 FilterableProductTable의 state를 업데이트할 수 있도록 하려면, 이 함수들을 SearchBar로 전달해야합니다.
+```javascript
+function FilterableProductTable({ products }) { const [filterText, setFilterText] = useState(''); const [inStockOnly, setInStockOnly] = useState(false);
      return (
          <div>
              <SearchBar
@@ -75,7 +134,9 @@ ProductTable의 forEach문을 수정합니다. ⚠ 첫번째 코드와 비교해
      )
  }
  ```
+
 SearchBar에서 onChange 이벤트 핸들러를 추가하여 부모 state를 변경할 수 있도록 구현할 수 있습니다.
+```
 function SearchBar({ filterText, inStockOnly, onFilterTextChange, onInStockOnlyChange }) {
     return (
         <form>
@@ -93,9 +154,11 @@ function SearchBar({ filterText, inStockOnly, onFilterTextChange, onInStockOnlyC
                 />
     )
 }
+```
+
 이제 애플리케이션이 완전히 동작합니다!
 -----
-## 5월 8일 강의(9주차)
+## 5월 8일 강의(10주차)
 
 React로 사고하기
 
