@@ -71,22 +71,21 @@ UI에 상품 아이템의 개수를 노출하고 싶다면, 상품 아이템 개
 
 State가 어디에 있어야 할 지 정하기
 
-이제 앱에서 최소한으로 필요한 state를 결정했습니다.
-다음으로는 어떤 컴포넌트가 이 state를 소유하고, 변경할 책임을 지게 할 지 정해야 합니다.
-React는 항상 컴포넌트 계층구조를 따라 부모에서 자식으로 데이터를 전달하는 단방향 데이터 흐름을 사용하는 것을 기억하세요!
-앱을 구현하면서 어떤 컴포넌트가 state를 가져야 하는 지 바로 명확하지 않을 수 있습니다.
-이 개념이 처음이라면 더 어려울 수 있습니다.
-그러나 아래의 과정을 따라가면 해결할 수 있습니다.
-애플리케이션의 각 state에 대해서,
-해당 state를 기반으로 렌더링하는 모든 컴포넌트를 찾으세요.
-그들의 가장 가까운 공통되는 부모 컴포넌트를 찾으세요. - 계층에서 모두를 포괄하는 상위 컴포넌트
-state가 어디에 위치돼야 하는지 결정합시다.
-state가 어디에 위치 돼야하는지 결정하려면,
-대개, 공통 부모에 state를 그냥 두면됩니다.
-혹은, 공통 부모 상위의 컴포넌트에 둬도 됩니다.
-state를 소유할 적절한 컴포넌트를 찾지 못했다면, state를 소유하는 컴포넌트를 하나 만들어서 상위 계층에 추가하세요.
-이전 단계에서, 이 애플리케이션의 두 가지 state인 "사용자의 검색어 입력과 체크박스의 값"을 발견하였습니다.
-이 예시에서 두 가지 state가 항상 함께 나타나기 때문에 같은 위치에 두는 것이 합리적입니다.
+이제 앱에서 최소한으로 필요한 state를 결정했습니다.<br>
+다음으로는 어떤 컴포넌트가 이 state를 소유하고, 변경할 책임을 지게 할 지 정해야 합니다.<br>
+React는 항상 컴포넌트 계층구조를 따라 부모에서 자식으로 데이터를 전달하는 단방향 데이터 흐름을 사용하는 것을 기억하세요!<br>
+앱을 구현하면서 어떤 컴포넌트가 state를 가져야 하는 지 바로 명확하지 않을 수 있습니다.<br>
+이 개념이 처음이라면 더 어려울 수 있습니다.<br>
+그러나 아래의 과정을 따라가면 해결할 수 있습니다.<br>
+애플리케이션의 각 state에 대해서,해당 state를 기반으로 렌더링하는 모든 컴포넌트를 찾으세요.<br>
+그들의 가장 가까운 공통되는 부모 컴포넌트를 찾으세요. 
+- 계층에서 모두를 포괄하는 상위 컴포넌트
+state가 어디에 위치돼야 하는지 결정합시다.<br>
+state가 어디에 위치 돼야하는지 결정하려면, 대개, 공통 부모에 state를 그냥 두면됩니다.<br>
+혹은, 공통 부모 상위의 컴포넌트에 둬도 됩니다.<br>
+state를 소유할 적절한 컴포넌트를 찾지 못했다면, state를 소유하는 컴포넌트를 하나 만들어서 상위 계층에 추가하세요.<br>
+이전 단계에서, 이 애플리케이션의 두 가지 state인 "사용자의 검색어 입력과 체크박스의 값"을 발견하였습니다.<br>
+이 예시에서 두 가지 state가 항상 함께 나타나기 때문에 같은 위치에 두는 것이 합리적입니다.<br>
 
 - 이제 이 전략을 애플리케이션에 적용해 봅시다.
 1. state를 쓰는 컴포넌트를 찾아봅시다.
@@ -106,22 +105,28 @@ function FilterableProductTable({ products }) { const [filterText, setFilterText
 - 이제 애플리케이션이 어떻게 동작하는지 알 수 있습니다.
 - filterText의 초깃값을 useState('')에서 useState('fruit')로 수정해보세요.
 - 검색창과 데이터 테이블이 모두 업데이트 됨을 확인할 수 있습니다.
-ProductTable의 props를 추가해줍니다. -> products, filterText, inStockOnly
-ProductTable의 forEach문을 수정합니다. ⚠ 첫번째 코드와 비교해 보면서 어디가 수정되었는지 정확하게 수정해줘야 합니다.
-아직 폼을 수정하는 작업이 작동하지 않습니다. 문서의 샌드박스에서 콘솔 에러가 발생하고 그 이유를 설명하겠습니다.
-완성된 코드를 보면, ProductTable와 SearchBar가 filterText와 inStockOnly props를 table, input과 체크박스를 렌더링하기 위해서 읽고 있습니다.
-예를 들면, SearchBar input의 value를 아래와 같이 채우고 있습니다.
-아직 사용자의 키보드 입력과 같은 행동에 반응하는 코드는 작성하지 않았습니다, 이 과정은 마지막 단계에서 진행할 예정입니다.
+ProductTable의 props를 추가해줍니다. -> products, filterText, inStockOnly<br>
+ProductTable의 forEach문을 수정합니다. ⚠ 첫번째 코드와 비교해 보면서 어디가 수정되었는지 정확하게 수정해줘야 합니다.<br>
+아직 폼을 수정하는 작업이 작동하지 않습니다. 문서의 샌드박스에서 콘솔 에러가 발생하고 그 이유를 설명하겠습니다.<br>
+완성된 코드를 보면, ProductTable와 SearchBar가 filterText와 inStockOnly props를 table, input과 체크박스를 렌더링하기 위해서 읽고 있습니다.<br>
+예를 들면, SearchBar input의 value를 아래와 같이 채우고 있습니다.<br>
+아직 사용자의 키보드 입력과 같은 행동에 반응하는 코드는 작성하지 않았습니다, 이 과정은 마지막 단계에서 진행할 예정입니다.<br>
 
-역 데이터 흐름 추가하기
 
-지금까지 우리는 계층 구조 아래로 흐르는 props와 state의 함수로써 앱을 만들었습니다.
-이제 사용자 입력에 따라 state를 변경하려면 반대 방향의 데이터 흐름을 만들어야 합니다.
-이를 위해서는 계층 구조의 하단에 있는 컴포넌트에서 FilterableProductTable의 state를 업데이트할 수 있어야 합니다.
+#### 역 데이터 흐름 추가하기
 
-- React는 데이터 흐름을 명시적으로 보이게 만들어 줍니다. - 그러나 이는 전통적인 양방향 데이터 바인딩보다 조금 더 많은 타이핑이 필요합니다.
-- 4단계의 예시에서 체크하거나 키보드를 타이핑할 경우 UI의 변화가 없고 입력을 무시하는 것을 확인할 수 있습니다. - 이것은 의도적으로 ```input value={ filterText }```로 코드를 쓰면서 value라는 prop이 항상 FilterableProductTable의 filterText라는 state를 통해서 데이터를 받도록 정했기 때문입니다.
-- filterText라는 state가 변경되는 것이 아니기 때문에 input의 value는 변하지 않고 화면도 바뀌는 것이 없습니다. - 우리는 사용자가 input을 변경할 때마다 사용자의 입력을 반영할 수 있도록 state를 업데이트하기를 원합니다. - state는 FilterableProductTable이 가지고 있고 state 변경을 위해서는 setFilterText와 setInStockOnly를 호출을 하면 됩니다. - SearchBar가 FilterableProductTable의 state를 업데이트할 수 있도록 하려면, 이 함수들을 SearchBar로 전달해야합니다.
+지금까지 우리는 계층 구조 아래로 흐르는 props와 state의 함수로써 앱을 만들었습니다.<br>
+이제 사용자 입력에 따라 state를 변경하려면 반대 방향의 데이터 흐름을 만들어야 합니다.<br>
+이를 위해서는 계층 구조의 하단에 있는 컴포넌트에서 FilterableProductTable의 state를 업데이트할 수 있어야 합니다.<br>
+
+- React는 데이터 흐름을 명시적으로 보이게 만들어 줍니다. - 그러나 이는 전통적인 양방향 데이터 바인딩보다 조금 더 많은 타이핑이 필요합니다.<br>
+- 4단계의 예시에서 체크하거나 키보드를 타이핑할 경우 UI의 변화가 없고 입력을 무시하는 것을 확인할 수 있습니다.
+- 이것은 의도적으로 ```input value={ filterText }```로 코드를 쓰면서 value라는 prop이 항상 FilterableProductTable의 filterText라는 state를 통해서 데이터를 받도록 정했기 때문입니다.
+- filterText라는 state가 변경되는 것이 아니기 때문에 input의 value는 변하지 않고 화면도 바뀌는 것이 없습니다.
+- 우리는 사용자가 input을 변경할 때마다 사용자의 입력을 반영할 수 있도록 state를 업데이트하기를 원합니다.
+- state는 FilterableProductTable이 가지고 있고 state 변경을 위해서는 setFilterText와 setInStockOnly를 호출을 하면 됩니다.
+- SearchBar가 FilterableProductTable의 state를 업데이트할 수 있도록 하려면, 이 함수들을 SearchBar로 전달해야합니다.
+- 
 ```javascript
 function FilterableProductTable({ products }) { const [filterText, setFilterText] = useState(''); const [inStockOnly, setInStockOnly] = useState(false);
      return (
